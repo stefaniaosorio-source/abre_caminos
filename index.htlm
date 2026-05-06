@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misiones Tarjeta Abre Caminos | Nu Colombia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --nu-purple: #820AD1;
+            --nu-purple-dark: #6B08AD;
+            --nu-purple-light: #9B4DCA;
+            --nu-white: #FFFFFF;
+            --nu-gray-light: #F4F4F4;
+            --nu-gray: #6E6E6E;
+            --nu-black: #111111;
+            --nu-green: #00A868;
+            --nu-red: #E5184C;
+            --nu-yellow: #FFB800;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: var(--nu-white);
+            color: var(--nu-black);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--nu-purple) 0%, var(--nu-purple-dark) 100%);
+            color: var(--nu-white);
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            color: var(--nu-purple);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--nu-purple);
+            display: inline-block;
+        }
+
+        .intro-box {
+            background: var(--nu-gray-light);
+            border-left: 5px solid var(--nu-purple);
+            padding: 25px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 30px;
+        }
+
+        .intro-box p {
+            font-size: 1.1rem;
+            color: var(--nu-gray);
+        }
+
+        .missions-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .mission-card {
+            background: var(--nu-white);
+            border: 2px solid var(--nu-gray-light);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .mission-card:hover {
+            border-color: var(--nu-purple);
+            box-shadow: 0 10px 30px rgba(130, 10, 209, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .mission-number {
+            background: var(--nu-purple);
+            color: var(--nu-white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .mission-content h3 {
+            color: var(--nu-black);
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .mission-content p {
+            color: var(--nu-gray);
+            font-size: 0.95rem;
+        }
+
+        .objectives-list {
+            list-style: none;
+        }
+
+        .objectives-list li {
+            background: var(--nu-white);
+            border-radius: 12px;
+            padding: 20px 25px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .objectives-list li:hover {
+            transform: translateX(10px);
+            box-shadow: 0 6px 20px rgba(130, 10, 209, 0.15);
+        }
+
+        .objectives-list .icon {
+            background: linear-gradient(135deg, var(--nu-purple) 0%, var(--nu-purple-light) 100%);
+            color: var(--nu-white);
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .objectives-list .text {
+            font-size: 1rem;
+            color: var(--nu-black);
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, var(--nu-purple) 0%, var(--nu-purple-dark) 100%);
+            color: var(--nu-white);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .cta-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-box p {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .status-item {
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: rgba(0, 168, 104, 0.15);
+            color: var(--nu-green);
+            border: 2px solid var(--nu-green);
+        }
+
+        .status-active {
+            background: rgba(130, 10, 209, 0.1);
+            color: var(--nu-purple);
+            border: 2px solid var(--nu-purple);
+        }
+
+        .status-blocked {
+            background: rgba(255, 184, 0, 0.15);
+            color: #CC9400;
+            border: 2px solid var(--nu-yellow);
+        }
+
+        .status-expired {
+            background: rgba(229, 24, 76, 0.1);
+            color: var(--nu-red);
+            border: 2px solid var(--nu-red);
+        }
+
+        footer {
+            background: var(--nu-black);
+            color: var(--nu-white);
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--nu-purple-light);
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .mission-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .mission-number {
+                margin: 0 auto;
+            }
+
+            .objectives-list li {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Misiones Tarjeta Abre Caminos</h1>
+        <p>Construye tu historial crediticio paso a paso</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>¿Qué son las misiones?</h2>
+            <div class="intro-box">
+                <p>Las misiones son <strong>tareas educativas</strong> diseñadas para guiarte en el uso responsable de tu Tarjeta Morada Abre Caminos. Completa cada misión de forma secuencial y fortalece tu perfil financiero ante las centrales de riesgo.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Las 4 Misiones</h2>
+            <p style="color: var(--nu-gray); margin-bottom: 25px;">El juego se compone de <strong>4 ciclos</strong>, cada uno con <strong>4 misiones</strong>. Completa un ciclo y desbloquea el siguiente.</p>
+            
+            <div class="missions-grid">
+                <div class="mission-card">
+                    <div class="mission-number">1</div>
+                    <div class="mission-content">
+                        <h3>Depósito</h3>
+                        <p>Haz un depósito en tu cuenta de ahorros e ingresa el dinero en la Cajita de respaldo.</p>
+                    </div>
+                </div>
+
+                <div class="mission-card">
+                    <div class="mission-number">2</div>
+                    <div class="mission-content">
+                        <h3>Compra</h3>
+                        <p>Realiza una compra de cualquier monto con tu Tarjeta Morada Abre Caminos.</p>
+                    </div>
+                </div>
+
+                <div class="mission-card">
+                    <div class="mission-number">3</div>
+                    <div class="mission-content">
+                        <h3>Gasto Mínimo</h3>
+                        <p>Acumula el monto que te indica la misión con tu tarjeta. Se refleja al cierre de facturación.</p>
+                    </div>
+                </div>
+
+                <div class="mission-card">
+                    <div class="mission-number">4</div>
+                    <div class="mission-content">
+                        <h3>Pago de Factura</h3>
+                        <p>Paga tu factura antes de la fecha límite. ¡Mantén tu historial impecable!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Estados de las Misiones</h2>
+            <div class="status-grid">
+                <div class="status-item status-completed">Completada</div>
+                <div class="status-item status-active">Activa / Requerida</div>
+                <div class="status-item status-blocked">Bloqueada</div>
+                <div class="status-item status-expired">Vencida</div>
+            </div>
+        </section>
+
+        <section>
+            <h2>¿Por qué cumplirlas?</h2>
+            <ul class="objectives-list">
+                <li>
+                    <span class="icon">📈</span>
+                    <span class="text"><strong>Construye tu historial:</strong> Genera reportes positivos en las centrales de riesgo.</span>
+                </li>
+                <li>
+                    <span class="icon">💳</span>
+                    <span class="text"><strong>Aumenta tus probabilidades:</strong> El sistema puede asignarte un cupo mayor automáticamente.</span>
+                </li>
+                <li>
+                    <span class="icon">🎓</span>
+                    <span class="text"><strong>Aprende paso a paso:</strong> Entiende cómo funciona una tarjeta de crédito de forma segura.</span>
+                </li>
+                <li>
+                    <span class="icon">🚀</span>
+                    <span class="text"><strong>Cupo sin respaldo:</strong> Avanza hacia un límite de crédito sin necesidad de garantía.</span>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <div class="cta-box">
+                <h3>¡Empieza hoy!</h3>
+                <p>Encuentra tus misiones en la sección <strong>"Abre tu camino"</strong> de tu App Nu o presiona el botón <strong>"Límite"</strong> con el ícono de montaña.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>Tarjeta Morada Abre Caminos - <a href="https://nu.com.co" target="_blank">Nu Colombia</a></p>
+    </footer>
+</body>
+</html>
