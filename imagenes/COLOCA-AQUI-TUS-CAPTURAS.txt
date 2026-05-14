@@ -1,0 +1,10 @@
+Renombra tus capturas de pantalla exactamente así (formato PNG o JPG; si usas JPG cambia la extensión en index.html o renombra a .png):
+
+01-app-inicio.png          → Pantalla de inicio de la app (paso 1 y 2).
+03-menu-documentos.png     → Menú de perfil con la opción «Documentos».
+04-generar-documentos-ret.png → Pantalla «Generar documentos» con «Certificado anual de retenciones…».
+05-elegir-anho.png         → Selector de año (lista o modal «Elige el año…»).
+06-enviar-reporte.png      → Pantalla con año elegido y botón «Enviar reporte» (o equivalente).
+07-correo-listo.png        → Pantalla «¡Listo! Enviamos el reporte a tu correo».
+
+El paso 2 reutiliza la misma imagen que el paso 1 (icono morado en la misma pantalla de inicio).
