@@ -14,6 +14,8 @@
       --accent: #7c3aed;
       --accent-soft: rgba(124, 58, 237, 0.2);
       --step-num: #a78bfa;
+      --hl: #d946ef;
+      --hl-glow: rgba(217, 70, 239, 0.45);
     }
 
     * {
@@ -39,7 +41,7 @@
     }
 
     .header-inner {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
@@ -86,7 +88,7 @@
     }
 
     main {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 1.5rem 1.25rem 3rem;
     }
@@ -121,12 +123,13 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 1.25rem;
+      align-items: stretch;
     }
 
-    @media (min-width: 860px) {
+    @media (min-width: 880px) {
       .step-layout {
-        grid-template-columns: minmax(280px, 380px) 1fr;
-        align-items: start;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
       }
     }
 
@@ -135,6 +138,9 @@
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 0.65rem;
+      display: flex;
+      flex-direction: column;
+      min-height: min(72vh, 640px);
     }
 
     .step-list-wrap h3 {
@@ -144,6 +150,13 @@
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: var(--muted);
+    }
+
+    .step-list-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding-right: 0.2rem;
     }
 
     ol.guide-steps {
@@ -167,7 +180,7 @@
       font: inherit;
       line-height: 1.45;
       cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
+      transition: background 0.15s, border-color 0.15s, transform 0.12s;
     }
 
     .guide-step-btn:last-child {
@@ -176,6 +189,10 @@
 
     .guide-step-btn:hover {
       background: rgba(255, 255, 255, 0.04);
+    }
+
+    .guide-step-btn:active {
+      transform: scale(0.99);
     }
 
     .guide-step-btn.is-active {
@@ -207,30 +224,111 @@
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 1rem;
-      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      min-height: min(72vh, 640px);
       position: sticky;
       top: 5.5rem;
     }
 
+    .step-visual-head {
+      flex-shrink: 0;
+      margin-bottom: 0.65rem;
+    }
+
     .step-visual h3 {
-      margin: 0 0 0.75rem 0;
+      margin: 0 0 0.25rem 0;
       font-size: 0.95rem;
       font-weight: 600;
+      color: var(--text);
+    }
+
+    .step-visual .visual-hint {
+      margin: 0;
+      font-size: 0.8rem;
       color: var(--muted);
     }
 
-    .step-visual img {
-      display: block;
-      width: 100%;
-      max-width: 420px;
-      margin: 0 auto;
+    .preview-stage {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse 80% 70% at 50% 45%, #2a2a35 0%, #12121a 72%);
       border-radius: 12px;
       border: 1px solid var(--border);
-      background: #000;
+      padding: 0.75rem;
     }
 
-    .step-visual img.is-hidden {
+    .preview-frame {
+      position: relative;
+      max-width: 100%;
+      max-height: 100%;
+      width: fit-content;
+      height: fit-content;
+      margin: auto;
+    }
+
+    .preview-frame .preview-img {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: min(100%, 340px);
+      max-height: min(calc(72vh - 220px), 580px);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #0a0a0c;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .preview-img.is-hidden {
       display: none;
+    }
+
+    .hl-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .hl-rect {
+      position: absolute;
+      border: 3px solid var(--hl);
+      border-radius: 10px;
+      box-shadow:
+        0 0 0 2px rgba(0, 0, 0, 0.35) inset,
+        0 0 0 3px var(--hl-glow),
+        0 0 28px var(--hl-glow);
+      opacity: 0;
+      transition: opacity 0.2s ease, top 0.25s ease, left 0.25s ease, width 0.25s ease, height 0.25s ease;
+    }
+
+    .hl-rect.is-on {
+      opacity: 1;
+    }
+
+    .hl-rect.hl-pulse {
+      animation: hl-pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes hl-pulse {
+      0%,
+      100% {
+        box-shadow:
+          0 0 0 2px rgba(0, 0, 0, 0.35) inset,
+          0 0 0 3px var(--hl-glow),
+          0 0 22px var(--hl-glow);
+      }
+      50% {
+        box-shadow:
+          0 0 0 2px rgba(0, 0, 0, 0.35) inset,
+          0 0 0 6px rgba(217, 70, 239, 0.25),
+          0 0 36px rgba(217, 70, 239, 0.55);
+      }
     }
 
     .img-missing {
@@ -241,8 +339,8 @@
       font-size: 0.9rem;
       border: 1px dashed var(--border);
       border-radius: 12px;
-      max-width: 420px;
-      margin: 0 auto;
+      max-width: 340px;
+      margin: auto;
     }
 
     .img-missing.is-visible {
@@ -286,66 +384,88 @@
   <main>
     <section id="panel-cert-ret" class="panel active" aria-labelledby="titulo-cert-ret">
       <h2 id="titulo-cert-ret">Certificados de RET</h2>
-      <p class="subtitle">Toca un paso para ver la captura que debería mostrar la app del cliente. Guía al cliente en el orden de la lista.</p>
+      <p class="subtitle">
+        Elige un paso: la captura se escala junto al panel y el <strong>marco fucsia</strong> marca lo que el cliente debe tocar (puedes afinar posiciones con los atributos <code>data-hl</code> en cada paso).
+      </p>
 
       <div class="step-layout">
         <div class="step-list-wrap">
           <h3>Pasos</h3>
-          <ol class="guide-steps" id="ret-step-list">
-            <li>
-              <button type="button" class="guide-step-btn is-active" data-img="imagenes/01-app-inicio.png" aria-current="step">
-                <span class="guide-step-num">1</span>
-                <span>Abre la app de Nu.</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" class="guide-step-btn" data-img="imagenes/01-app-inicio.png">
-                <span class="guide-step-num">2</span>
-                <span>En la parte superior izquierda, toca el <strong>icono morado del perfil</strong>.</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" class="guide-step-btn" data-img="imagenes/03-menu-documentos.png">
-                <span class="guide-step-num">3</span>
-                <span>Selecciona <strong>«Documentos»</strong>.</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" class="guide-step-btn" data-img="imagenes/04-generar-documentos-ret.png">
-                <span class="guide-step-num">4</span>
-                <span>En <strong>«Generar documentos»</strong>, elige <strong>«Certificado anual de retenciones en la fuente»</strong>.</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" class="guide-step-btn" data-img="imagenes/05-elegir-anho.png">
-                <span class="guide-step-num">5</span>
-                <span>Selecciona el <strong>año</strong> que desea consultar.</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" class="guide-step-btn" data-img="imagenes/06-enviar-reporte.png">
-                <span class="guide-step-num">6</span>
-                <span>Toca <strong>«Enviar reporte»</strong> o <strong>«Enviar reporte/certificado»</strong> (según lo que muestre la app).</span>
-              </button>
-            </li>
-            <li>
-              <button type="button" class="guide-step-btn" data-img="imagenes/07-correo-listo.png">
-                <span class="guide-step-num">7</span>
-                <span>Pide que revise su <strong>correo</strong> y que abra el documento (si la app lo indica, con su <strong>número de identificación</strong>).</span>
-              </button>
-            </li>
-          </ol>
+          <div class="step-list-scroll">
+            <ol class="guide-steps" id="ret-step-list">
+              <li>
+                <button
+                  type="button"
+                  class="guide-step-btn is-active"
+                  data-img="imagenes/01-app-inicio.png"
+                  data-hl="10,4,24,12"
+                  aria-current="step"
+                >
+                  <span class="guide-step-num">1</span>
+                  <span>Abre la app de Nu.</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="guide-step-btn" data-img="imagenes/01-app-inicio.png" data-hl="10,4,24,12">
+                  <span class="guide-step-num">2</span>
+                  <span>En la parte superior izquierda, toca el <strong>icono morado del perfil</strong>.</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="guide-step-btn" data-img="imagenes/03-menu-documentos.png" data-hl="44,5,90,12">
+                  <span class="guide-step-num">3</span>
+                  <span>Selecciona <strong>«Documentos»</strong>.</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="guide-step-btn" data-img="imagenes/04-generar-documentos-ret.png" data-hl="38,5,92,14">
+                  <span class="guide-step-num">4</span>
+                  <span>En <strong>«Generar documentos»</strong>, elige <strong>«Certificado anual de retenciones en la fuente»</strong>.</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="guide-step-btn" data-img="imagenes/05-elegir-anho.png" data-hl="34,6,88,11" data-hl2="62,8,84,28">
+                  <span class="guide-step-num">5</span>
+                  <span>Selecciona el <strong>año</strong> que desea consultar.</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="guide-step-btn" data-img="imagenes/06-enviar-reporte.png" data-hl="82,6,88,10">
+                  <span class="guide-step-num">6</span>
+                  <span>Toca <strong>«Enviar reporte»</strong> o <strong>«Enviar reporte/certificado»</strong> (según lo que muestre la app).</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="guide-step-btn" data-img="imagenes/07-correo-listo.png" data-hl="24,8,88,42">
+                  <span class="guide-step-num">7</span>
+                  <span>Pide que revise su <strong>correo</strong> y que abra el documento (si la app lo indica, con su <strong>número de identificación</strong>).</span>
+                </button>
+              </li>
+            </ol>
+          </div>
         </div>
 
         <div class="step-visual" aria-live="polite">
-          <h3 id="ret-preview-label">Vista del cliente</h3>
-          <img
-            id="ret-step-img"
-            src="imagenes/01-app-inicio.png"
-            alt="Captura de pantalla del paso seleccionado en la app Nu."
-          />
+          <div class="step-visual-head">
+            <h3 id="ret-preview-label">Vista del cliente</h3>
+            <p class="visual-hint">Marco animado = zona a tocar en esa pantalla.</p>
+          </div>
+          <div class="preview-stage">
+            <div class="preview-frame" id="ret-preview-frame">
+              <img
+                id="ret-step-img"
+                class="preview-img"
+                src="imagenes/01-app-inicio.png"
+                alt="Captura de pantalla del paso seleccionado en la app Nu."
+              />
+              <div class="hl-layer" id="ret-hl-layer" hidden>
+                <div class="hl-rect hl-pulse" id="ret-hl-a"></div>
+                <div class="hl-rect hl-pulse" id="ret-hl-b"></div>
+              </div>
+            </div>
+          </div>
           <p id="ret-img-missing" class="img-missing" hidden>
-            No se encontró la imagen. Guarda tu captura en la carpeta <code>imagenes/</code> con los nombres usados en cada paso (por ejemplo <code>01-app-inicio.png</code>).
+            No se encontró la imagen. Guarda tu captura en la carpeta <code>imagenes/</code> con el nombre de cada paso (por ejemplo <code>01-app-inicio.png</code>).
           </p>
         </div>
       </div>
@@ -390,6 +510,55 @@
       var stepList = document.getElementById("ret-step-list");
       var previewImg = document.getElementById("ret-step-img");
       var missingEl = document.getElementById("ret-img-missing");
+      var hlLayer = document.getElementById("ret-hl-layer");
+      var hlA = document.getElementById("ret-hl-a");
+      var hlB = document.getElementById("ret-hl-b");
+
+      function parseHl(str) {
+        if (!str || !String(str).trim()) return null;
+        var p = String(str).trim().split(/[\s,]+/);
+        if (p.length < 4) return null;
+        var t = parseFloat(p[0]);
+        var l = parseFloat(p[1]);
+        var w = parseFloat(p[2]);
+        var h = parseFloat(p[3]);
+        if ([t, l, w, h].some(function (n) { return isNaN(n); })) return null;
+        return { top: t, left: l, width: w, height: h };
+      }
+
+      function applyRect(el, rect) {
+        if (!el) return;
+        if (!rect) {
+          el.classList.remove("is-on");
+          return;
+        }
+        el.style.top = rect.top + "%";
+        el.style.left = rect.left + "%";
+        el.style.width = rect.width + "%";
+        el.style.height = rect.height + "%";
+        el.classList.add("is-on");
+      }
+
+      function applyHighlights(btn) {
+        if (!hlLayer || !hlA || !hlB) return;
+        var r1 = parseHl(btn.getAttribute("data-hl"));
+        var r2 = parseHl(btn.getAttribute("data-hl2"));
+        if (!r1 && !r2) {
+          hlLayer.hidden = true;
+          hlA.classList.remove("is-on");
+          hlB.classList.remove("is-on");
+          return;
+        }
+        hlLayer.hidden = false;
+        applyRect(hlA, r1);
+        applyRect(hlB, r2);
+        if (!r2) {
+          hlB.classList.remove("is-on");
+        }
+        if (!r1) {
+          hlA.classList.remove("is-on");
+        }
+      }
 
       function setActiveStep(btn) {
         if (!stepList || !btn) return;
@@ -410,11 +579,13 @@
             "Referencia visual en la app Nu para el paso " + (numEl ? numEl.textContent : "") + ".";
           previewImg.src = src;
         }
+        applyHighlights(btn);
       }
 
       function showMissingPlaceholder() {
         if (!previewImg || !missingEl) return;
         previewImg.classList.add("is-hidden");
+        if (hlLayer) hlLayer.hidden = true;
         missingEl.hidden = false;
         missingEl.classList.add("is-visible");
       }
@@ -428,6 +599,8 @@
               missingEl.classList.remove("is-visible");
               missingEl.hidden = true;
             }
+            var active = stepList && stepList.querySelector(".guide-step-btn.is-active");
+            if (active) applyHighlights(active);
           }
         });
       }
@@ -445,6 +618,7 @@
           if (previewImg && initial) {
             previewImg.src = initial;
           }
+          setActiveStep(first);
           if (previewImg && previewImg.complete && previewImg.naturalWidth === 0) {
             showMissingPlaceholder();
           }
