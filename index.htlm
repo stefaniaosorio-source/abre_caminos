@@ -1,363 +1,456 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Misiones Tarjeta Abre Caminos | Nu Colombia</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --nu-purple: #820AD1;
-            --nu-purple-dark: #6B08AD;
-            --nu-purple-light: #9B4DCA;
-            --nu-white: #FFFFFF;
-            --nu-gray-light: #F4F4F4;
-            --nu-gray: #6E6E6E;
-            --nu-black: #111111;
-            --nu-green: #00A868;
-            --nu-red: #E5184C;
-            --nu-yellow: #FFB800;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guías para agentes — Nu</title>
+  <style>
+    :root {
+      --bg: #0f0f12;
+      --surface: #1a1a21;
+      --border: #2e2e3a;
+      --text: #f4f4f6;
+      --muted: #9b9ba8;
+      --accent: #7c3aed;
+      --accent-soft: rgba(124, 58, 237, 0.2);
+      --step-num: #a78bfa;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Nunito Sans', sans-serif;
-            background-color: var(--nu-white);
-            color: var(--nu-black);
-            line-height: 1.6;
-        }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      min-height: 100vh;
+    }
 
-        header {
-            background: linear-gradient(135deg, var(--nu-purple) 0%, var(--nu-purple-dark) 100%);
-            color: var(--nu-white);
-            padding: 60px 20px;
-            text-align: center;
-        }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
 
-        header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
 
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0 0 0.75rem 0;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+    .topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
 
-        section {
-            margin-bottom: 50px;
-        }
+    .topic-btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
 
-        h2 {
-            color: var(--nu-purple);
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid var(--nu-purple);
-            display: inline-block;
-        }
+    .topic-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--step-num);
+    }
 
-        .intro-box {
-            background: var(--nu-gray-light);
-            border-left: 5px solid var(--nu-purple);
-            padding: 25px;
-            border-radius: 0 10px 10px 0;
-            margin-bottom: 30px;
-        }
+    .topic-btn[aria-pressed="true"] {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: #e9d5ff;
+    }
 
-        .intro-box p {
-            font-size: 1.1rem;
-            color: var(--nu-gray);
-        }
+    .topic-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
 
-        .missions-grid {
-            display: grid;
-            gap: 20px;
-        }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 3rem;
+    }
 
-        .mission-card {
-            background: var(--nu-white);
-            border: 2px solid var(--nu-gray-light);
-            border-radius: 15px;
-            padding: 25px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-        }
+    .panel {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
 
-        .mission-card:hover {
-            border-color: var(--nu-purple);
-            box-shadow: 0 10px 30px rgba(130, 10, 209, 0.15);
-            transform: translateY(-3px);
-        }
+    .panel.active {
+      display: block;
+    }
 
-        .mission-number {
-            background: var(--nu-purple);
-            color: var(--nu-white);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 800;
-            flex-shrink: 0;
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .mission-content h3 {
-            color: var(--nu-black);
-            font-size: 1.2rem;
-            margin-bottom: 8px;
-        }
+    .panel h2 {
+      font-size: 1.35rem;
+      margin: 0 0 0.35rem 0;
+      font-weight: 700;
+    }
 
-        .mission-content p {
-            color: var(--nu-gray);
-            font-size: 0.95rem;
-        }
+    .panel .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0 0 1.25rem 0;
+    }
 
-        .objectives-list {
-            list-style: none;
-        }
+    .step-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
 
-        .objectives-list li {
-            background: var(--nu-white);
-            border-radius: 12px;
-            padding: 20px 25px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-        }
+    @media (min-width: 860px) {
+      .step-layout {
+        grid-template-columns: minmax(280px, 380px) 1fr;
+        align-items: start;
+      }
+    }
 
-        .objectives-list li:hover {
-            transform: translateX(10px);
-            box-shadow: 0 6px 20px rgba(130, 10, 209, 0.15);
-        }
+    .step-list-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.65rem;
+    }
 
-        .objectives-list .icon {
-            background: linear-gradient(135deg, var(--nu-purple) 0%, var(--nu-purple-light) 100%);
-            color: var(--nu-white);
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            flex-shrink: 0;
-        }
+    .step-list-wrap h3 {
+      margin: 0 0 0.5rem 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
 
-        .objectives-list .text {
-            font-size: 1rem;
-            color: var(--nu-black);
-        }
+    ol.guide-steps {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
 
-        .cta-box {
-            background: linear-gradient(135deg, var(--nu-purple) 0%, var(--nu-purple-dark) 100%);
-            color: var(--nu-white);
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-        }
+    .guide-step-btn {
+      width: 100%;
+      text-align: left;
+      display: flex;
+      gap: 0.65rem;
+      align-items: flex-start;
+      padding: 0.7rem 0.65rem;
+      margin-bottom: 0.35rem;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      line-height: 1.45;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
 
-        .cta-box h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
+    .guide-step-btn:last-child {
+      margin-bottom: 0;
+    }
 
-        .cta-box p {
-            font-size: 1rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+    .guide-step-btn:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
 
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
+    .guide-step-btn.is-active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+    }
 
-        .status-item {
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 600;
-        }
+    .guide-step-num {
+      flex-shrink: 0;
+      width: 1.65rem;
+      height: 1.65rem;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      color: var(--step-num);
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .status-completed {
-            background: rgba(0, 168, 104, 0.15);
-            color: var(--nu-green);
-            border: 2px solid var(--nu-green);
-        }
+    .guide-step-btn.is-active .guide-step-num {
+      background: var(--accent);
+      color: #fff;
+    }
 
-        .status-active {
-            background: rgba(130, 10, 209, 0.1);
-            color: var(--nu-purple);
-            border: 2px solid var(--nu-purple);
-        }
+    .step-visual {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      min-height: 200px;
+      position: sticky;
+      top: 5.5rem;
+    }
 
-        .status-blocked {
-            background: rgba(255, 184, 0, 0.15);
-            color: #CC9400;
-            border: 2px solid var(--nu-yellow);
-        }
+    .step-visual h3 {
+      margin: 0 0 0.75rem 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
 
-        .status-expired {
-            background: rgba(229, 24, 76, 0.1);
-            color: var(--nu-red);
-            border: 2px solid var(--nu-red);
-        }
+    .step-visual img {
+      display: block;
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #000;
+    }
 
-        footer {
-            background: var(--nu-black);
-            color: var(--nu-white);
-            text-align: center;
-            padding: 30px 20px;
-            font-size: 0.9rem;
-        }
+    .step-visual img.is-hidden {
+      display: none;
+    }
 
-        footer a {
-            color: var(--nu-purple-light);
-            text-decoration: none;
-        }
+    .img-missing {
+      display: none;
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
 
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 1.8rem;
-            }
+    .img-missing.is-visible {
+      display: block;
+    }
 
-            .mission-card {
-                flex-direction: column;
-                text-align: center;
-            }
+    .img-missing code {
+      font-size: 0.8rem;
+      color: var(--step-num);
+      word-break: break-all;
+    }
 
-            .mission-number {
-                margin: 0 auto;
-            }
-
-            .objectives-list li {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-    </style>
+    .placeholder-msg {
+      color: var(--muted);
+      padding: 2rem;
+      text-align: center;
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Misiones Tarjeta Abre Caminos</h1>
-        <p>Construye tu historial crediticio paso a paso</p>
-    </header>
-
-    <div class="container">
-        <section>
-            <h2>¿Qué son las misiones?</h2>
-            <div class="intro-box">
-                <p>Las misiones son <strong>tareas educativas</strong> diseñadas para guiarte en el uso responsable de tu Tarjeta Morada Abre Caminos. Completa cada misión de forma secuencial y fortalece tu perfil financiero ante las centrales de riesgo.</p>
-            </div>
-        </section>
-
-        <section>
-            <h2>Las 4 Misiones</h2>
-            <p style="color: var(--nu-gray); margin-bottom: 25px;">El juego se compone de <strong>4 ciclos</strong>, cada uno con <strong>4 misiones</strong>. Completa un ciclo y desbloquea el siguiente.</p>
-            
-            <div class="missions-grid">
-                <div class="mission-card">
-                    <div class="mission-number">1</div>
-                    <div class="mission-content">
-                        <h3>Depósito</h3>
-                        <p>Haz un depósito en tu cuenta de ahorros e ingresa el dinero en la Cajita de respaldo.</p>
-                    </div>
-                </div>
-
-                <div class="mission-card">
-                    <div class="mission-number">2</div>
-                    <div class="mission-content">
-                        <h3>Compra</h3>
-                        <p>Realiza una compra de cualquier monto con tu Tarjeta Morada Abre Caminos.</p>
-                    </div>
-                </div>
-
-                <div class="mission-card">
-                    <div class="mission-number">3</div>
-                    <div class="mission-content">
-                        <h3>Gasto Mínimo</h3>
-                        <p>Acumula el monto que te indica la misión con tu tarjeta. Se refleja al cierre de facturación.</p>
-                    </div>
-                </div>
-
-                <div class="mission-card">
-                    <div class="mission-number">4</div>
-                    <div class="mission-content">
-                        <h3>Pago de Factura</h3>
-                        <p>Paga tu factura antes de la fecha límite. ¡Mantén tu historial impecable!</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h2>Estados de las Misiones</h2>
-            <div class="status-grid">
-                <div class="status-item status-completed">Completada</div>
-                <div class="status-item status-active">Activa / Requerida</div>
-                <div class="status-item status-blocked">Bloqueada</div>
-                <div class="status-item status-expired">Vencida</div>
-            </div>
-        </section>
-
-        <section>
-            <h2>¿Por qué cumplirlas?</h2>
-            <ul class="objectives-list">
-                <li>
-                    <span class="icon">📈</span>
-                    <span class="text"><strong>Construye tu historial:</strong> Genera reportes positivos en las centrales de riesgo.</span>
-                </li>
-                <li>
-                    <span class="icon">💳</span>
-                    <span class="text"><strong>Aumenta tus probabilidades:</strong> El sistema puede asignarte un cupo mayor automáticamente.</span>
-                </li>
-                <li>
-                    <span class="icon">🎓</span>
-                    <span class="text"><strong>Aprende paso a paso:</strong> Entiende cómo funciona una tarjeta de crédito de forma segura.</span>
-                </li>
-                <li>
-                    <span class="icon">🚀</span>
-                    <span class="text"><strong>Cupo sin respaldo:</strong> Avanza hacia un límite de crédito sin necesidad de garantía.</span>
-                </li>
-            </ul>
-        </section>
-
-        <section>
-            <div class="cta-box">
-                <h3>¡Empieza hoy!</h3>
-                <p>Encuentra tus misiones en la sección <strong>"Abre tu camino"</strong> de tu App Nu o presiona el botón <strong>"Límite"</strong> con el ícono de montaña.</p>
-            </div>
-        </section>
+  <header>
+    <div class="header-inner">
+      <h1>Guías paso a paso — soporte al cliente</h1>
+      <nav class="topics" aria-label="Temas de guía">
+        <button type="button" class="topic-btn" data-panel="cert-ret" aria-pressed="true">
+          Certificados de RET
+        </button>
+        <button type="button" class="topic-btn" data-panel="limite" aria-pressed="false" disabled title="Próximamente">
+          Límite
+        </button>
+        <button type="button" class="topic-btn" data-panel="mas" aria-pressed="false" disabled title="Próximamente">
+          Más temas…
+        </button>
+      </nav>
     </div>
+  </header>
 
-    <footer>
-        <p>Tarjeta Morada Abre Caminos - <a href="https://nu.com.co" target="_blank">Nu Colombia</a></p>
-    </footer>
+  <main>
+    <section id="panel-cert-ret" class="panel active" aria-labelledby="titulo-cert-ret">
+      <h2 id="titulo-cert-ret">Certificados de RET</h2>
+      <p class="subtitle">Toca un paso para ver la captura que debería mostrar la app del cliente. Guía al cliente en el orden de la lista.</p>
+
+      <div class="step-layout">
+        <div class="step-list-wrap">
+          <h3>Pasos</h3>
+          <ol class="guide-steps" id="ret-step-list">
+            <li>
+              <button type="button" class="guide-step-btn is-active" data-img="imagenes/01-app-inicio.png" aria-current="step">
+                <span class="guide-step-num">1</span>
+                <span>Abre la app de Nu.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="guide-step-btn" data-img="imagenes/01-app-inicio.png">
+                <span class="guide-step-num">2</span>
+                <span>En la parte superior izquierda, toca el <strong>icono morado del perfil</strong>.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="guide-step-btn" data-img="imagenes/03-menu-documentos.png">
+                <span class="guide-step-num">3</span>
+                <span>Selecciona <strong>«Documentos»</strong>.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="guide-step-btn" data-img="imagenes/04-generar-documentos-ret.png">
+                <span class="guide-step-num">4</span>
+                <span>En <strong>«Generar documentos»</strong>, elige <strong>«Certificado anual de retenciones en la fuente»</strong>.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="guide-step-btn" data-img="imagenes/05-elegir-anho.png">
+                <span class="guide-step-num">5</span>
+                <span>Selecciona el <strong>año</strong> que desea consultar.</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="guide-step-btn" data-img="imagenes/06-enviar-reporte.png">
+                <span class="guide-step-num">6</span>
+                <span>Toca <strong>«Enviar reporte»</strong> o <strong>«Enviar reporte/certificado»</strong> (según lo que muestre la app).</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="guide-step-btn" data-img="imagenes/07-correo-listo.png">
+                <span class="guide-step-num">7</span>
+                <span>Pide que revise su <strong>correo</strong> y que abra el documento (si la app lo indica, con su <strong>número de identificación</strong>).</span>
+              </button>
+            </li>
+          </ol>
+        </div>
+
+        <div class="step-visual" aria-live="polite">
+          <h3 id="ret-preview-label">Vista del cliente</h3>
+          <img
+            id="ret-step-img"
+            src="imagenes/01-app-inicio.png"
+            alt="Captura de pantalla del paso seleccionado en la app Nu."
+          />
+          <p id="ret-img-missing" class="img-missing" hidden>
+            No se encontró la imagen. Guarda tu captura en la carpeta <code>imagenes/</code> con los nombres usados en cada paso (por ejemplo <code>01-app-inicio.png</code>).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-limite" class="panel" aria-labelledby="titulo-limite" hidden>
+      <h2 id="titulo-limite">Límite</h2>
+      <p class="placeholder-msg">Aquí irá la guía cuando la tengas lista.</p>
+    </section>
+
+    <section id="panel-mas" class="panel" aria-labelledby="titulo-mas" hidden>
+      <h2 id="titulo-mas">Más temas</h2>
+      <p class="placeholder-msg">Agrega nuevos botones en el encabezado y paneles con los pasos.</p>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var topicButtons = document.querySelectorAll(".topic-btn[data-panel]");
+
+      function showPanel(id) {
+        document.querySelectorAll(".panel").forEach(function (el) {
+          var suffix = el.id.indexOf("panel-") === 0 ? el.id.slice(6) : el.id;
+          var on = suffix === id;
+          el.classList.toggle("active", on);
+          el.hidden = !on;
+        });
+        topicButtons.forEach(function (btn) {
+          var pressed = btn.getAttribute("data-panel") === id;
+          btn.setAttribute("aria-pressed", pressed ? "true" : "false");
+        });
+      }
+
+      topicButtons.forEach(function (btn) {
+        if (btn.disabled) return;
+        btn.addEventListener("click", function () {
+          var id = btn.getAttribute("data-panel");
+          if (id) showPanel(id);
+        });
+      });
+
+      var stepList = document.getElementById("ret-step-list");
+      var previewImg = document.getElementById("ret-step-img");
+      var missingEl = document.getElementById("ret-img-missing");
+
+      function setActiveStep(btn) {
+        if (!stepList || !btn) return;
+        stepList.querySelectorAll(".guide-step-btn").forEach(function (b) {
+          b.classList.toggle("is-active", b === btn);
+          if (b === btn) b.setAttribute("aria-current", "step");
+          else b.removeAttribute("aria-current");
+        });
+        var src = btn.getAttribute("data-img");
+        if (previewImg && src) {
+          previewImg.classList.remove("is-hidden");
+          if (missingEl) {
+            missingEl.classList.remove("is-visible");
+            missingEl.hidden = true;
+          }
+          var numEl = btn.querySelector(".guide-step-num");
+          previewImg.alt =
+            "Referencia visual en la app Nu para el paso " + (numEl ? numEl.textContent : "") + ".";
+          previewImg.src = src;
+        }
+      }
+
+      function showMissingPlaceholder() {
+        if (!previewImg || !missingEl) return;
+        previewImg.classList.add("is-hidden");
+        missingEl.hidden = false;
+        missingEl.classList.add("is-visible");
+      }
+
+      if (previewImg) {
+        previewImg.addEventListener("error", showMissingPlaceholder);
+        previewImg.addEventListener("load", function () {
+          if (previewImg.naturalWidth > 0) {
+            previewImg.classList.remove("is-hidden");
+            if (missingEl) {
+              missingEl.classList.remove("is-visible");
+              missingEl.hidden = true;
+            }
+          }
+        });
+      }
+
+      if (stepList) {
+        stepList.addEventListener("click", function (e) {
+          var btn = e.target.closest(".guide-step-btn");
+          if (!btn || !stepList.contains(btn)) return;
+          setActiveStep(btn);
+        });
+
+        var first = stepList.querySelector(".guide-step-btn.is-active") || stepList.querySelector(".guide-step-btn");
+        if (first) {
+          var initial = first.getAttribute("data-img");
+          if (previewImg && initial) {
+            previewImg.src = initial;
+          }
+          if (previewImg && previewImg.complete && previewImg.naturalWidth === 0) {
+            showMissingPlaceholder();
+          }
+        }
+      }
+    })();
+  </script>
 </body>
 </html>
